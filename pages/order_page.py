@@ -1,5 +1,6 @@
 import allure
 import data
+import random
 from datetime import date
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -7,7 +8,27 @@ from selenium.webdriver.support import expected_conditions
 from pages.base_page import BasePage
 
 
+class OrderPageData:
+    def get_random_time_rental():
+        choice = ['сутки', 'двое суток', 'трое суток', 'четверо суток', 'пятеро суток', 'шестеро суток', 'семеро суток']
+        random_index = random.randrange(len(choice))
+        time_rental = choice[random_index]
+        return time_rental
+
+    def get_random_colour():
+        choice = ['black', 'grey']
+        random_index = random.randrange(len(choice))
+        colour = choice[random_index]
+        return colour
+
+    def get_random_phone():
+        phone = f'79{random.randint(100000000, 999999999)}'
+        return phone
+
+    def get_random_metro():
+        return random.randint(1, 237)
 class OrderPageLocators:
+
     MAIN_PAGE_LOGO = [By.CLASS_NAME, 'Header_Logo__23yGT']
     HEADER_BUTTON_ORDER = [By.XPATH, '//div[@class="Header_Nav__AGCXC"]/button[text()="Заказать"]']
     PAGE_BUTTON_ORDER = [By.XPATH, '//div[@class="Home_FinishButton__1_cWm"]/button[text()="Заказать"]']
@@ -16,13 +37,13 @@ class OrderPageLocators:
     INPUT_DELIVERY_ADDRESS = [By.XPATH, '//input[@placeholder="* Адрес: куда привезти заказ"]']
     INPUT_METRO = [By.XPATH, '//input[@placeholder="* Станция метро"]']
     INPUT_PHONE = [By.XPATH, '//input[@placeholder="* Телефон: на него позвонит курьер"]']
-    METRO = [By.XPATH, f'//li[@data-value="{data.DataOrderPage.get_random_metro()}"]']
+    METRO = [By.XPATH, f'//li[@data-value="{random.randint(1, 237)}"]']
     GO_NEXT = [By.XPATH, '//button[text()="Далее"]']
     INPUT_DATE_DELIVERY = [By.XPATH, '//input[@placeholder="* Когда привезти самокат"]']
     DATE_DELIVERY = [By.XPATH, f'//div[@class="react-datepicker__month"]//div[text()="{date.today().day}"]']
     SELECT_TIME_RENTAL = [By.XPATH, '//div[text()="* Срок аренды"]']
-    TIME_RENTAL = [By.XPATH, f'//div[text()="{data.DataOrderPage.get_random_time_rental()}"]']
-    INPUT_COLOUR = [By.ID, f'{data.DataOrderPage.get_random_colour()}']
+    TIME_RENTAL = [By.XPATH, f'//div[text()="{OrderPageData.get_random_time_rental()}"]']
+    INPUT_COLOUR = [By.ID, f'{OrderPageData.get_random_colour()}']
     INPUT_COMMENT = [By.XPATH, '//input[@placeholder="Комментарий для курьера"]']
     BUTTON_ORDER = [By.XPATH, '//div[@class="Order_Buttons__1xGrp"]/button[text()="Заказать"]']
     CONFIRM_WINDOW_ORDER = [By.CLASS_NAME, 'Order_Modal__YZ-d3']
@@ -35,18 +56,14 @@ class OrderPageLocators:
 
 
 class OrderPageHelper(BasePage):
-    @allure.step('Открываем главную страницу "Яндекс Самокат"')
-    def open_scooter_main_page(self):
-        return self.driver.get(self.url)
 
     @allure.step('Ждем загрузку главной страницы')
     def wait_open_page(self):
         return WebDriverWait(self.driver, 3).until(
             expected_conditions.visibility_of_element_located((OrderPageLocators.MAIN_PAGE_LOGO)))
     @allure.step('Нажимаем на кнопку "Заказать"')
-    def click_order_button(self, order_button):
-        return self.driver.find_element(*order_button).click()
-
+    def click_order_button(self):
+        return WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable((OrderPageLocators.PAGE_BUTTON_ORDER))).click()
     @allure.step('Ждем загрузку страницы оформления заказа')
     def wait_open_order_page(self):
         return WebDriverWait(self.driver, 3).until(
