@@ -26,51 +26,23 @@ class QuestionPageLocators:
     ANSWER_CANCEL_ORDER = [By.XPATH, "//p[contains(text(),'Да, пока самокат не привезли. Штрафа')]"]
     ANSWER_DELIVERY_RANGE = [By.XPATH, "//p[contains(text(),'Да, обязательно. Всем самокатов! И Москве')]"]
 
-    # Текст ответов
-    text_answer_how_much = "Сутки — 400 рублей. Оплата курьеру — наличными или картой."
-
-    text_answer_want_a_lot = ("Пока что у нас так: один заказ — один самокат. "
-                              "Если хотите покататься с друзьями, можете просто сделать несколько заказов — "
-                              "один за другим.")
-
-    text_answer_rental_time = ("Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. "
-                               "Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. "
-                               "Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.")
-
-    text_answer_order_today = "Только начиная с завтрашнего дня. Но скоро станем расторопнее."
-
-    text_answer_extend_or_refund = ("Пока что нет! Но если что-то срочное — "
-                                    "всегда можно позвонить в поддержку по красивому номеру 1010.")
-
-    text_answer_necessary_charge = ("Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — "
-                                    "даже если будете кататься без передышек и во сне. Зарядка не понадобится.")
-
-    text_answer_cancel_order = ("Да, пока самокат не привезли. Штрафа не будет, "
-                                "объяснительной записки тоже не попросим. Все же свои.")
-
-    text_answer_delivery_range = "Да, обязательно. Всем самокатов! И Москве, и Московской области."
-
 
 class QuestionPageHelper(BasePage):
     @allure.step('Открыть главную страницу "Яндекс Самокат"')
     def open_scooter_main_page(self):
-        return self.driver.get(self.url)
+        return self.open_page()
 
     @allure.step('Проскроллить страницу к разделу "Вопросы о важном"')
     def scroll_page_to_questions(self, question):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
-            (question)))
-        question_on_page = self.driver.find_element(*question)
-        return self.driver.execute_script("arguments[0].scrollIntoView();", question_on_page)
+        question_on_page = self.find_element_with_wait(question)
+        return self.scroll_to_element(question_on_page)
 
     @allure.step('Нажать на вопрос')
     def click_on_question(self, question):
-        return WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
-            (question))).click()
+        return self.click_on_element(question)
 
     @allure.step('Получить текст ответа')
     def get_drop_down_text_answer(self, answer):
-        return WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
-            (answer))).text
+        return self.get_text_from_element(answer)
 
 
