@@ -45,9 +45,9 @@ class OrderPage(BasePage):
     def wait_open_page(self, locator):
         return self.find_element_with_wait(locator)
     @allure.step('Нажимаем на кнопку "Заказать"')
-    def click_order_button(self):
-        return WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable((OrderPageLocators.PAGE_BUTTON_ORDER))).click()
-    @allure.step('Ждем загрузку страницы оформления заказа')
+    def click_order_button(self, locator):
+        return (self.click_on_element(locator)
+    @allure.step('Ждем загрузку страницы оформления заказа'))
     def wait_open_order_page(self):
         return WebDriverWait(self.driver, 3).until(
             expected_conditions.element_to_be_clickable((OrderPageLocators.INPUT_FIRST_NAME)))
