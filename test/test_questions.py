@@ -1,7 +1,6 @@
 import allure
 import pytest
 import data
-from pages.order_page import OrderPage
 from pages.question_page import QuestionPage
 
 

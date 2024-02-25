@@ -1,6 +1,5 @@
 from pages.order_page import OrderPageLocators
 from pages.question_page import QuestionPageLocators
-import random
 BASE_URL = 'https://qa-scooter.praktikum-services.ru/'
 
 
@@ -72,6 +71,3 @@ class DataQuestionPage:
             text_answer_delivery_range
         ]
     ]
-
-
-order_button = [OrderPageLocators.HEADER_BUTTON_ORDER, OrderPageLocators.PAGE_BUTTON_ORDER]
