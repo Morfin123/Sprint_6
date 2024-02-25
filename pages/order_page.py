@@ -36,8 +36,11 @@ class OrderPageLocators:
     HEADER_BUTTON_SCOOTER = [By.XPATH, '//img[@alt="Scooter"]']
 
 
-class OrderPageHelper(BasePage):
+class OrderPage(BasePage):
 
+    @allure.step('Открыть главную страницу "Яндекс Самокат"')
+    def open_scooter_main_page(self):
+        return self.open_page()
     @allure.step('Ждем загрузку главной страницы')
     def wait_open_page(self, locator):
         return self.find_element_with_wait(locator)

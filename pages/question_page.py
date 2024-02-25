@@ -27,7 +27,7 @@ class QuestionPageLocators:
     ANSWER_DELIVERY_RANGE = [By.XPATH, "//p[contains(text(),'Да, обязательно. Всем самокатов! И Москве')]"]
 
 
-class QuestionPageHelper(BasePage):
+class QuestionPage(BasePage):
     @allure.step('Открыть главную страницу "Яндекс Самокат"')
     def open_scooter_main_page(self):
         return self.open_page()

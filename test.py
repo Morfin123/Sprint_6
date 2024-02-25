@@ -1,8 +1,8 @@
 import allure
 import pytest
 import data
-from pages.order_page import OrderPageHelper
-from pages.question_page import QuestionPageHelper
+from pages.order_page import OrderPage
+from pages.question_page import QuestionPage
 
 
 class TestQuestions:
@@ -10,7 +10,7 @@ class TestQuestions:
     @allure.description("Находим раздел с вопросами и проверяем, что выпадающий ответ соотвтетсует вопросу")
     @pytest.mark.parametrize('question, answer, text_answer', data.DataQuestionPage.question_test_params)
     def test_questions_on_main_page(self, driver, question, answer, text_answer):
-        question_page = QuestionPageHelper(driver=driver, url=data.BASE_URL)
+        question_page = QuestionPage(driver=driver, url=data.BASE_URL)
         question_page.open_scooter_main_page()
         question_page.scroll_page_to_questions(question)
         question_page.click_on_question(question)
@@ -21,9 +21,8 @@ class TestQuestions:
 class TestOrder:
     @allure.title('Проверка успешного создания заказа')
     @allure.description("Переходим на страницу созданя заказа, заполняем все необходимы поля и создаем заказ")
-    #@pytest.mark.parametrize('order_button', data.order_button)
     def test_success_order(self, driver):
-        order_page = OrderPageHelper(driver=driver, url=data.BASE_URL)
+        order_page = OrderPage(driver=driver, url=data.BASE_URL)
         order_page.open_scooter_main_page()
         order_page.wait_open_page()
         order_page.click_order_button()
